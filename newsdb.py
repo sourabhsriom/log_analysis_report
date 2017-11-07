@@ -1,14 +1,14 @@
-# "Database code" for the DB Forum.
+# "Database code" for the reporting tool
 
 import datetime
 import psycopg2
 import bleach
 
-#setting the database name ø
+#setting the database name 
 DBNAME = "news"
 
 def get_top_authors():
-  
+
   db = psycopg2.connect(database=DBNAME)
   cursor = db.cursor()
 
