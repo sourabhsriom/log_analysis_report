@@ -8,32 +8,32 @@ import bleach
 DBNAME = "news"
 
 
-def get_top_authors():
+def sqlFetch(query):
 
     db = psycopg2.connect(database=DBNAME)
     cursor = db.cursor()
+    cursor.execute(query)
+    results = cursor.fetchall()
+    db.close()
+    return results
+
+
+def get_top_authors():
 
     query = '''select * from best_authors limit 3;'''
-    cursor.execute(query)
-    db.close()
-    return cursor.fetchall()
+    authors = sqlFetch(query)
+    return authors
 
 
 def get_top_articles():
 
-    db = psycopg2.connect(database=DBNAME)
-    cursor = db.cursor()
-
     query = '''select * from best_articles limit 3;'''
-    cursor.execute(query)
-    db.close()
-    return cursor.fetchall()
+    articles = sqlFetch(query)
+    return articles
 
 
 def get_fails():
 
-    db = psycopg2.connect(database=DBNAME)
-    cursor = db.cursor()
     query = '''select visits.date as date,
         round(cast(cast(fails.count as float)
         /cast(visits.count as float) * 100 as numeric), 2)
@@ -43,6 +43,5 @@ def get_fails():
         on visits.date = fails.date
         where cast(fails.count as float)/cast(visits.count as float) > 0.01;'''
 
-    cursor.execute(query)
-    db.close()
-    return cursor.fetchall()
+    fails = sqlFetch(query)
+    return fails
