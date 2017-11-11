@@ -30,7 +30,8 @@ To minimize the sql queries we will be writing in our python program, we create 
   ```
 
 - articles_visited
-  ``` create view articles_visited as
+  ```
+  create view articles_visited as
   SELECT replace(replace(log.path, '-'::text, ' '::text), '/article/'::text, ''::text) AS article,
     count(log.id) AS counts
    FROM log
@@ -39,7 +40,8 @@ To minimize the sql queries we will be writing in our python program, we create 
   GROUP BY (replace(replace(log.path, '-'::text, ' '::text), '/article/'::text, ''::text));
   ```
 - best_authors
-  ``` create view best_authors as
+  ```
+  create view best_authors as
   SELECT authors.name,
     sum(articles_visited.counts) AS sum
    FROM articles
@@ -51,7 +53,8 @@ To minimize the sql queries we will be writing in our python program, we create 
 
 
 - best_articles
-  ```create view best_articles as
+  ```
+  create view best_articles as
   SELECT articles.title,
     articles_visited.counts
    FROM articles
